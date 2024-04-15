@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, make_response
 from estrutura_banco_dados import Autor, Postagem, app, db
 import jwt
+import json
 from datetime import datetime, timedelta
 from functools import wraps
 
@@ -17,7 +18,8 @@ def token_obrigatorio(f):
         try:
             resultado = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
             autor = Autor.query.filter_by(id_autor=resultado['id_autor']).first()
-        except:
+        except Exception as error:
+            print(error)
             return jsonify({'mensagem': 'Token é invalido'}, 401)
         return f(autor, *args, **kwargs)
     return decorated
@@ -176,4 +178,5 @@ def deletar_autor(autor, id_autor):
     return jsonify({'mensagem': 'Autor deletado com sucesso'})
 
 
-app.run(host='localhost', port=5000, debug=True)
+app.run(port=5000,host='localhost',debug=True)
+resultado = jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
