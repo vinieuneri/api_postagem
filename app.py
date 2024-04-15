@@ -177,6 +177,6 @@ def deletar_autor(autor, id_autor):
 
     return jsonify({'mensagem': 'Autor deletado com sucesso'})
 
-
-app.run(port=5000,host='localhost',debug=False)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, debug=False)
 resultado = jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
